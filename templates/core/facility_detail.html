@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}{{ facility.name }} · MIHMS{% endblock %}
+{% block content %}<h1>{{ facility.name }}</h1><p class="muted">{{ facility.code }} · {{ facility.district }} · {{ facility.facility_type }}</p>
+<div class="grid"><div class="card"><div class="muted">Organisation</div><strong>{{ facility.organisation }}</strong></div><div class="card"><div class="muted">Contact</div><strong>{{ facility.phone|default:"Not entered" }}</strong></div></div>
+<div class="panel"><h2>Departments</h2><table><thead><tr><th>Code</th><th>Department</th><th>Status</th></tr></thead><tbody>{% for d in departments %}<tr><td>{{ d.code }}</td><td>{{ d.name }}</td><td>{{ d.is_active|yesno:"Active,Inactive" }}</td></tr>{% empty %}<tr><td colspan="3">No departments configured.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

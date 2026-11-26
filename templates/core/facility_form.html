@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block title %}Add facility · MIHMS{% endblock %}
+{% block content %}<div class="panel" style="max-width:650px"><h1>Add a facility</h1><p class="muted">The new facility will belong to your organisation.</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save facility</button> <a href="{% url 'facility_list' %}">Cancel</a></form></div>{% endblock %}

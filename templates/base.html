@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}MIHMS{% endblock %}</title>
+<style>
+:root{--navy:#173b65;--blue:#2563eb;--bg:#f4f7fb;--ink:#172334;--muted:#64748b;--line:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+header{background:var(--navy);color:white;padding:15px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-weight:800;letter-spacing:.4px}.sub{font-size:12px;opacity:.8}
+nav{background:white;border-bottom:1px solid var(--line);padding:11px 22px;display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:var(--navy);text-decoration:none;font-weight:600;font-size:14px}
+main{max-width:1180px;margin:25px auto;padding:0 18px}.panel,.card{background:white;border:1px solid var(--line);border-radius:14px;padding:19px;box-shadow:0 2px 8px #0f172a08}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:16px 0}
+.metric{font-size:28px;font-weight:800;margin-top:5px}.muted{color:var(--muted);font-size:13px}
+h1{font-size:25px;margin:0 0 7px}h2{font-size:18px;margin:0 0 14px}
+a.btn,button{background:var(--blue);color:white;border:0;border-radius:9px;padding:10px 14px;text-decoration:none;font-weight:650;cursor:pointer}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;margin:5px 0 13px;font:inherit}
+label{font-weight:650;font-size:13px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--muted);text-transform:uppercase}
+.msg{padding:12px;background:#dcfce7;border-radius:8px;margin-bottom:12px}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#dbeafe;color:#1e40af;font-size:12px}
+form.inline{display:inline}.logout{background:transparent;color:white;padding:5px}
+@media(max-width:600px){header{align-items:flex-start;flex-direction:column}nav{gap:12px;padding:12px}main{margin:16px auto}.metric{font-size:24px}table{font-size:13px}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">MIHMS</div><div class="sub">Multi-Facility Integrated Health Management System</div></div>
+{% if user.is_authenticated %}<div>{{ user.get_full_name|default:user.username }} · {{ user.get_role_display }}
+<form class="inline" method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout" type="submit">Log out</button></form></div>{% endif %}</header>
+{% if user.is_authenticated %}<nav><a href="{% url 'dashboard' %}">Dashboard</a><a href="{% url 'facility_list' %}">Facilities</a><a href="/admin/">Administration</a></nav>{% endif %}
+<main>{% for message in messages %}<div class="msg">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+</body></html>

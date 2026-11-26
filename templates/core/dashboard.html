@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}Dashboard · MIHMS{% endblock %}
+{% block content %}
+<h1>Management dashboard</h1><p class="muted">Organisation: {{ request.user.organisation|default:"Not assigned" }} · Currency: MWK</p>
+<form method="get" class="panel" style="margin:15px 0;max-width:430px"><label>Facility view</label><select name="facility" onchange="this.form.submit()"><option value="all" {% if selected_facility == "all" %}selected{% endif %}>All accessible facilities</option>{% for f in facilities %}<option value="{{ f.id }}" {% if selected_facility == f.id|stringformat:"s" %}selected{% endif %}>{{ f.name }}</option>{% endfor %}</select></form>
+<div class="grid">
+<div class="card"><div class="muted">Accessible facilities</div><div class="metric">{{ facility_count }}</div></div>
+<div class="card"><div class="muted">Active departments</div><div class="metric">{{ department_count }}</div></div>
+<div class="card"><div class="muted">Registered patients</div><div class="metric">{{ patient_count }}</div></div>
+<div class="card"><div class="muted">Recorded encounters</div><div class="metric">{{ encounter_count }}</div></div>
+</div>
+<div class="panel"><h2>Facility overview</h2><table><thead><tr><th>Facility</th><th>District</th><th>Type</th><th>Status</th><th></th></tr></thead><tbody>
+{% for f in active_facilities %}<tr><td>{{ f.name }}</td><td>{{ f.district|default:"—" }}</td><td>{{ f.facility_type }}</td><td><span class="tag">Active</span></td><td><a href="{% url 'facility_detail' f.pk %}">Open</a></td></tr>{% empty %}<tr><td colspan="5">No facilities are assigned to this account.</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted">Version 1.0 demonstration: financial and stock figures will appear when those transaction workflows are implemented.</p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Sign in · MIHMS{% endblock %}
+{% block content %}
+<div style="max-width:430px;margin:5vh auto" class="panel">
+<h1>Welcome to MIHMS</h1><p class="muted">Sign in with your authorised staff account.</p>
+<form method="post">{% csrf_token %}
+{% if form.errors %}<p style="color:#b91c1c">The username or password was not recognised.</p>{% endif %}
+<label for="id_username">Username</label>{{ form.username }}
+<label for="id_password">Password</label>{{ form.password }}
+<button style="width:100%" type="submit">Sign in</button>
+<input type="hidden" name="next" value="{{ next }}">
+</form><p class="muted">Access is restricted to authorised users. Contact your system administrator if you need an account.</p>
+</div>{% endblock %}
